@@ -1,0 +1,246 @@
+CREATE DATABASE MotorBay;
+// the "create database" query establishes a new database
+
+\c MotorBay
+// connects to the dataabse
+// the "\c" connects to the given database
+
+create table branches(
+    branch_id serial primary key,
+    location varchar(50) not null,
+    email varchar(60) not null,
+    phone_number varchar(11) not null,
+    total_space INTEGER,
+    vehicles_present INTEGER
+);
+
+// alter method
+ALTER table branches
+drop column total_space,
+drop column vehicles_present;
+// deletes the columns mentioned
+
+// inserting the first 5 branches to input details
+insert into branches (location, email, phone_number)
+VALUES
+    ('London', 'London@Motorbay.co.uk', '01256796358'),
+    ('Plymouth', 'Plymouth@Motorbay.co.uk', '01259642156'),
+    ('Portsmouth', 'Portsmouth@Motorbay.co.uk', '01258745589'),
+    ('Coventry', 'Coventry@Motorbay.co.uk', '01255112364'),
+    ('Ashford', 'Ashford@Motorbay.co.uk', '01254781245');
+
+create table customers(
+    customer_id serial primary key,
+    f_name varchar(25) not null,
+    m_name varchar(25),
+    l_name varchar(25) not null,
+    phone_number varchar(11) not null,
+    email varchar(50) not null,
+    house_number varchar(50) not null,
+    street_name varchar(50) not null,
+    city_name varchar(50) not null,
+    postcode varchar(10) not null
+);
+
+create table roles (
+    role_id serial primary key,
+    role_name varchar(50) not null 
+);
+
+INSERT INTO roles (role_id, role_name)
+VALUES
+    (1, 'Manager'),
+    (2, 'Receptionist'),
+    (3, 'Engineer'),
+    (4, 'Technician'),
+    (5, 'Electrician'),
+    (6, 'Mechanic');
+// further roles can be updated
+
+// staffs
+create table staffs(
+    staff_id serial primary key,
+    staff_fname varchar(30) not null,
+    staff_mname varchar(30) not null,
+    staff_lname varchar(30) not null,
+    branch_id int references branches(branch_id),
+    role_id int references roles(role_id),
+    work_email varchar(50) not null,
+    personal_email varchar(50) not null,
+    phone_number varchar(50) not null,
+    house_number varchar(50) not null,
+    street_name varchar(50) not null,
+    city_name varchar(50) not null,
+    postcode varchar(10) not null
+);
+
+// now we assign random staffs to each branches
+
+insert into staffs (staff_fname, staff_mname, staff_lname, branch_id, role_id, work_email, personal_email, phone_number, house_number, street_name, city_name, postcode)
+VALUES
+    ('Michael', 'S', 'Fox', 1, 1, 'michael.fox@motorbay.co.uk', 'mickeyf23@bt.net', '07887549863', '23', 'Queen Street', 'Harrow', 'HA1 4ES'),
+    ('Jane', 'E', 'Wilson', 1, 2, 'jane.wilson@motorbay.co.uk', 'jane.wilson@gmail.com', '0788001122', '124', 'Main Street', 'Harrow', 'HA1 3AB'),
+    ('Robert', 'F', 'Clark', 1, 3, 'robert.clark@motorbay.co.uk', 'robert.clark@gmail.com', '0790011224', '457', 'High Street', 'Pimlico', 'SW1V 2AB'),
+    ('Sophia', 'G', 'Martin', 1, 4, 'sophia.martin@motorbay.co.uk', 'sophia.martin@gmail.com', '0780122335', '790', 'Broad Street', 'Camden', 'NW1 3DE'),
+    ('Oliver', 'H', 'Lee', 1, 5, 'oliver.lee@motorbay.co.uk', 'oliver.lee@gmail.com', '0777001235', '568', 'Ocean Road', 'Greenwich', 'SE10 8FG'),
+    ('Emily', 'I', 'Hall', 1, 6, 'emily.hall@motorbay.co.uk', 'emily.hall@gmail.com', '0766002346', '102', 'City Center', 'Hackney', 'E8 4YZ');
+// for London
+insert into staffs (staff_fname, staff_mname, staff_lname, branch_id, role_id, work_email, personal_email, phone_number, house_number, street_name, city_name, postcode)
+VALUES
+    ('John', 'A', 'Smith', 2, 1, 'john.smith@motorbay.co.uk', 'john.smith@gmail.com', '0790011224', '457', 'High Street', 'Plymouth', 'PL457CD'),
+    ('Emily', 'B', 'Jones', 2, 2, 'emily.jones@motorbay.co.uk', 'emily.jones@yahoo.com', '0780122335', '790', 'Main Road', 'Plymouth', 'PL678EF'),
+    ('Michael', 'C', 'Brown', 2, 2, 'michael.brown@motorbay.co.uk', 'michael.brown@hotmail.com', '0777001235', '568', 'Ocean Avenue', 'Plymouth', 'PL345GH'),
+    ('Sophia', 'D', 'Davis', 2, 2, 'sophia.davis@motorbay.co.uk', 'sophia.davis@gmail.com', '0766002346', '102', 'Beach Street', 'Plymouth', 'PL901IJ'),
+    ('Liam', 'E', 'Evans', 2, 3, 'liam.evans@motorbay.co.uk', 'liam.evans@btinternet.com', '0798123456', '456', 'Park Road', 'Plymouth', 'PL123KL'),
+    ('Olivia', 'F', 'Johnson', 2, 3, 'olivia.johnson@motorbay.co.uk', 'olivia.johnson@sky.com', '0778345678', '789', 'Meadow Avenue', 'Plymouth', 'PL789MN'),
+    ('James', 'G', 'Smith', 2, 3, 'james.smith@motorbay.co.uk', 'james.smith@yahoo.com', '0767456789', '567', 'Grove Street', 'Plymouth', 'PL567OP'),
+    ('Chloe', 'H', 'Lee', 2, 4, 'chloe.lee@motorbay.co.uk', 'chloe.lee@hotmail.com', '0788567890', '123', 'Sunset Road', 'Plymouth', 'PL234QR'),
+    ('William', 'I', 'Clark', 2, 4, 'william.clark@motorbay.co.uk', 'william.clark@gmail.com', '0798678901', '101', 'Mountain Avenue', 'Plymouth', 'PL890ST'),
+    ('Ava', 'J', 'Davis', 2, 4, 'ava.davis@motorbay.co.uk', 'ava.davis@outlook.com', '0789012345', '456', 'River Road', 'Plymouth', 'PL678UV'),
+    ('Noah', 'K', 'Brown', 2, 5, 'noah.brown@motorbay.co.uk', 'noah.brown@aol.com', '0767890123', '789', 'Valley Street', 'Plymouth', 'PL345WX'),
+    ('Emma', 'L', 'Williams', 2, 5, 'emma.williams@motorbay.co.uk', 'emma.williams@protonmail.com', '0778901234', '568', 'Hill Road', 'Plymouth', 'PL123YZ'),
+    ('Liam', 'M', 'Evans', 2, 6, 'liam.evans@motorbay.co.uk', 'liam.evans@zoho.com', '0789002345', '102', 'Forest Avenue', 'Plymouth', 'PL890AB'),
+    ('Olivia', 'N', 'Johnson', 2, 6, 'olivia.johnson@motorbay.co.uk', 'olivia.johnson@fastmail.com', '0790013456', '456', 'Lake Street', 'Plymouth', 'PL456CD'),
+    ('James', 'O', 'Smith', 2, 6, 'james.smith@motorbay.co.uk', 'james.smith@yandex.com', '0767123456', '789', 'Island Road', 'Plymouth', 'PL678DE'),
+    ('Chloe', 'P', 'Lee', 2, 6, 'chloe.lee@motorbay.co.uk', 'chloe.lee@mail.com', '0788234567', '567', 'City Avenue', 'Plymouth', 'PL345EF');
+
+
+// for Portsmouth
+insert into staffs (staff_fname, staff_mname, staff_lname, branch_id, role_id, work_email, personal_email, phone_number, house_number, street_name, city_name, postcode)
+VALUES
+    ('Isabella', 'A', 'Smith', 3, 1, 'isabella.smith@motorbay.co.uk', 'isabella.smith@gmail.com', '0789001111', '101', 'Marina Road', 'Portsmouth', 'PO123AB'),
+    ('Ethan', 'B', 'Johnson', 3, 2, 'ethan.johnson@motorbay.co.uk', 'ethan.johnson@yahoo.com', '0766002222', '202', 'Harbor Street', 'Portsmouth', 'PO456CD'),
+    ('Olivia', 'C', 'Williams', 3, 2, 'olivia.williams@motorbay.co.uk', 'olivia.williams@hotmail.com', '0777003333', '303', 'Ocean Avenue', 'Portsmouth', 'PO789EF'),
+    ('Mason', 'D', 'Brown', 3, 3, 'mason.brown@motorbay.co.uk', 'mason.brown@gmail.com', '0788004444', '404', 'Beach Road', 'Portsmouth', 'PO112GH'),
+    ('Sophia', 'E', 'Jones', 3, 3, 'sophia.jones@motorbay.co.uk', 'sophia.jones@btinternet.com', '0799005555', '505', 'Pier Street', 'Portsmouth', 'PO345IJ'),
+    ('Logan', 'F', 'Davis', 3, 4, 'logan.davis@motorbay.co.uk', 'logan.davis@sky.com', '0766006666', '606', 'Maritime Road', 'Portsmouth', 'PO678KL'),
+    ('Amelia', 'G', 'Clark', 3, 4, 'amelia.clark@motorbay.co.uk', 'amelia.clark@yahoo.com', '0777007777', '707', 'Ship Avenue', 'Portsmouth', 'PO901MN'),
+    ('Lucas', 'H', 'Moore', 3, 5, 'lucas.moore@motorbay.co.uk', 'lucas.moore@hotmail.com', '0788008888', '808', 'Harbor Street', 'Portsmouth', 'PO234OP'),
+    ('Ava', 'I', 'Hall', 3, 5, 'ava.hall@motorbay.co.uk', 'ava.hall@gmail.com', '0799009999', '909', 'Dock Road', 'Portsmouth', 'PO567QR'),
+    ('Henry', 'J', 'Wright', 3, 6, 'henry.wright@motorbay.co.uk', 'henry.wright@outlook.com', '0767111111', '1010', 'Sail Street', 'Portsmouth', 'PO890ST'),
+    ('Mia', 'K', 'Hill', 3, 6, 'mia.hill@motorbay.co.uk', 'mia.hill@aol.com', '0777222222', '1111', 'Anchor Avenue', 'Portsmouth', 'PO123UV'),
+    ('Elijah', 'L', 'Garcia', 3, 6, 'elijah.garcia@motorbay.co.uk', 'elijah.garcia@yahoo.com', '0788333333', '1212', 'Pier Road', 'Portsmouth', 'PO456WX');
+
+// for Coventry
+insert into staffs (staff_fname, staff_mname, staff_lname, branch_id, role_id, work_email, personal_email, phone_number, house_number, street_name, city_name, postcode)
+VALUES
+    ('Oliver', 'A', 'Wilson', 4, 1, 'oliver.wilson@motorbay.co.uk', 'oliver.wilson@gmail.com', '0767001111', '101', 'Coventry Street', 'Coventry', 'CV123AB'),
+    ('Charlotte', 'B', 'Johnson', 4, 1, 'charlotte.johnson@motorbay.co.uk', 'charlotte.johnson@yahoo.com', '0788111222', '202', 'Ring Road', 'Coventry', 'CV456CD'),
+    ('Liam', 'C', 'Smith', 4, 2, 'liam.smith@motorbay.co.uk', 'liam.smith@hotmail.com', '0799222333', '303', 'City Avenue', 'Coventry', 'CV789EF'),
+    ('Amelia', 'D', 'Brown', 4, 2, 'amelia.brown@motorbay.co.uk', 'amelia.brown@gmail.com', '0766003444', '404', 'Bridge Street', 'Coventry', 'CV112GH'),
+    ('Ethan', 'E', 'Davis', 4, 2, 'ethan.davis@motorbay.co.uk', 'ethan.davis@btinternet.com', '0788334555', '505', 'High Street', 'Coventry', 'CV345IJ'),
+    ('Sophia', 'F', 'Martin', 4, 3, 'sophia.martin@motorbay.co.uk', 'sophia.martin@sky.com', '0767005666', '606', 'Broadway', 'Coventry', 'CV678KL'),
+    ('Mason', 'G', 'Wilson', 4, 3, 'mason.wilson@motorbay.co.uk', 'mason.wilson@yahoo.com', '0788116777', '707', 'Park Road', 'Coventry', 'CV901MN'),
+    ('Olivia', 'H', 'Lee', 4, 4, 'olivia.lee@motorbay.co.uk', 'olivia.lee@hotmail.com', '0799227888', '808', 'Grove Avenue', 'Coventry', 'CV234OP'),
+    ('Lucas', 'I', 'Moore', 4, 4, 'lucas.moore@motorbay.co.uk', 'lucas.moore@gmail.com', '0766009999', '909', 'Meadow Street', 'Coventry', 'CV567QR'),
+    ('Ava', 'J', 'Clark', 4, 4, 'ava.clark@motorbay.co.uk', 'ava.clark@outlook.com', '0788334111', '1010', 'Lake Road', 'Coventry', 'CV890ST'),
+    ('Noah', 'K', 'Hill', 4, 5, 'noah.hill@motorbay.co.uk', 'noah.hill@aol.com', '0767111222', '1111', 'River Avenue', 'Coventry', 'CV123UV'),
+    ('Emma', 'L', 'Evans', 4, 5, 'emma.evans@motorbay.co.uk', 'emma.evans@yahoo.com', '0799222333', '1212', 'Forest Street', 'Coventry', 'CV456WX'),
+    ('Liam', 'M', 'Harris', 4, 5, 'liam.harris@motorbay.co.uk', 'liam.harris@hotmail.com', '0766003444', '1313', 'Sail Road', 'Coventry', 'CV789YZ'),
+    ('Mia', 'N', 'White', 4, 6, 'mia.white@motorbay.co.uk', 'mia.white@gmail.com', '0788114555', '1414', 'Mountain Avenue', 'Coventry', 'CV112AB'),
+    ('Ella', 'O', 'King', 4, 6, 'ella.king@motorbay.co.uk', 'ella.king@btinternet.com', '0799225666', '1515', 'Crescent Street', 'Coventry', 'CV345CD'),
+    ('Jacob', 'P', 'Green', 4, 6, 'jacob.green@motorbay.co.uk', 'jacob.green@yahoo.com', '0767006777', '1616', 'Marina Road', 'Coventry', 'CV678EF'),
+    ('Mia', 'Q', 'Adams', 4, 6, 'mia.adams@motorbay.co.uk', 'mia.adams@hotmail.com', '0788337888', '1717', 'Harbor Avenue', 'Coventry', 'CV901GH');
+
+// for ashford
+insert into staffs (staff_fname, staff_mname, staff_lname, branch_id, role_id, work_email, personal_email, phone_number, house_number, street_name, city_name, postcode)
+VALUES
+    ('Oliver', 'A', 'Smith', 5, 1, 'oliver.smith@motorbay.co.uk', 'oliver.smith@gmail.com', '0766001111', '101', 'Main Street', 'Ashford', 'TN231AB'),
+    ('Charlotte', 'B', 'Johnson', 5, 2, 'charlotte.johnson@motorbay.co.uk', 'charlotte.johnson@yahoo.com', '0788111222', '202', 'High Road', 'Ashford', 'TN456CD'),
+    ('Liam', 'C', 'Smith', 5, 2, 'liam.smith@motorbay.co.uk', 'liam.smith@hotmail.com', '0799222333', '303', 'Park Avenue', 'Ashford', 'TN789EF'),
+    ('Amelia', 'D', 'Brown', 5, 3, 'amelia.brown@motorbay.co.uk', 'amelia.brown@gmail.com', '0766003444', '404', 'Broad Street', 'Ashford', 'TN112GH'),
+    ('Ethan', 'E', 'Davis', 5, 4, 'ethan.davis@motorbay.co.uk', 'ethan.davis@btinternet.com', '0788334555', '505', 'Crescent Road', 'Ashford', 'TN345IJ'),
+    ('Sophia', 'F', 'Martin', 5, 5, 'sophia.martin@motorbay.co.uk', 'sophia.martin@sky.com', '0767005666', '606', 'Grove Avenue', 'Ashford', 'TN678KL'),
+    ('Mason', 'G', 'Wilson', 5, 6, 'mason.wilson@motorbay.co.uk', 'mason.wilson@yahoo.com', '0788116777', '707', 'Meadow Street', 'Ashford', 'TN901MN'),
+    ('Olivia', 'H', 'Lee', 5, 6, 'olivia.lee@motorbay.co.uk', 'olivia.lee@hotmail.com', '0799227888', '808', 'Ocean Road', 'Ashford', 'TN234OP'),
+    ('Lucas', 'I', 'Moore', 5, 3, 'lucas.moore@motorbay.co.uk', 'lucas.moore@gmail.com', '0766009999', '909', 'Harbor Avenue', 'Ashford', 'TN567QR');
+
+// for now we shall be working with the current input amount of staffs and further on adding additional customers and vehicles_present
+// currently addint 6 customers for each branches
+INSERT INTO customers (f_name, m_name, l_name, phone_number, email, house_number, street_name, city_name, postcode)
+VALUES
+    ('Sophie', NULL, 'Harris', '0787123456', 'sophie.harris@gmail.com', '123', 'Station Road', 'Ashford', 'TN241AB'),
+    ('James', NULL, 'Turner', '0798234567', 'james.turner@yahoo.com', '456', 'High Street', 'Ashford', 'TN241CD'),
+    ('Emma', NULL, 'Moore', '0769345678', 'emma.moore@hotmail.com', '789', 'Park Avenue', 'Ashford', 'TN241EF'),
+    ('David', NULL, 'Martin', '0770456789', 'david.martin@gmail.com', '101', 'Meadow Road', 'Ashford', 'TN241GH'),
+    ('Olivia', NULL, 'Wilson', '0781567890', 'olivia.wilson@yahoo.com', '234', 'Market Street', 'Ashford', 'TN241IJ'),
+    ('Liam', NULL, 'Carter', '0767678901', 'liam.carter@hotmail.com', '567', 'Main Street', 'Ashford', 'TN241KL'),
+    ('Ella', NULL, 'Adams', '0788123456', 'ella.adams@gmail.com', '123', 'Seaside Road', 'Plymouth', 'PL125AB'),
+    ('Benjamin', NULL, 'Foster', '0799234567', 'benjamin.foster@yahoo.com', '456', 'Beach Avenue', 'Plymouth', 'PL125CD'),
+    ('Mia', NULL, 'Gardner', '0768345678', 'mia.gardner@hotmail.com', '789', 'Harbor Street', 'Plymouth', 'PL125EF'),
+    ('Henry', NULL, 'Porter', '0779456789', 'henry.porter@gmail.com', '101', 'Marina Road', 'Plymouth', 'PL125GH'),
+    ('Sophia', NULL, 'Martin', '0780567890', 'sophia.martin@yahoo.com', '234', 'Dock Road', 'Plymouth', 'PL125IJ'),
+    ('Oliver', NULL, 'Cole', '0767678901', 'oliver.cole@hotmail.com', '567', 'Market Street', 'Plymouth', 'PL125KL'),
+    ('Charlotte', NULL, 'Murray', '0789123456', 'charlotte.murray@gmail.com', '123', 'City Avenue', 'Bristol', 'BS123AB'),
+    ('Liam', NULL, 'Reid', '0790234567', 'liam.reid@yahoo.com', '456', 'Bridge Street', 'Bristol', 'BS123CD'),
+    ('Mia', NULL, 'Turner', '0761345678', 'mia.turner@hotmail.com', '789', 'Park Street', 'Bristol', 'BS123EF'),
+    ('Noah', NULL, 'Williams', '0772456789', 'noah.williams@gmail.com', '101', 'High Road', 'Bristol', 'BS123GH'),
+    ('Ella', NULL, 'Barnes', '0783567890', 'ella.barnes@yahoo.com', '234', 'Market Road', 'Bristol', 'BS123IJ'),
+    ('Jacob', NULL, 'Davis', '0764678901', 'jacob.davis@hotmail.com', '567', 'Grove Street', 'Bristol', 'BS123KL'),
+    ('Charlotte', NULL, 'Murray', '0789123456', 'charlotte.murray@gmail.com', '123', 'City Avenue', 'Bristol', 'BS123AB'),
+    ('Liam', NULL, 'Reid', '0790234567', 'liam.reid@yahoo.com', '456', 'Bridge Street', 'Bristol', 'BS123CD'),
+    ('Mia', NULL, 'Turner', '0761345678', 'mia.turner@hotmail.com', '789', 'Park Street', 'Bristol', 'BS123EF'),
+    ('Noah', NULL, 'Williams', '0772456789', 'noah.williams@gmail.com', '101', 'High Road', 'Bristol', 'BS123GH'),
+    ('Ella', NULL, 'Barnes', '0783567890', 'ella.barnes@yahoo.com', '234', 'Market Road', 'Bristol', 'BS123IJ'),
+    ('Jacob', NULL, 'Davis', '0764678901', 'jacob.davis@hotmail.com', '567', 'Grove Street', 'Bristol', 'BS123KL'),
+    ('Charlotte', NULL, 'Murray', '0789123456', 'charlotte.murray@gmail.com', '123', 'City Avenue', 'Bristol', 'BS123AB'),
+    ('Liam', NULL, 'Reid', '0790234567', 'liam.reid@yahoo.com', '456', 'Bridge Street', 'Bristol', 'BS123CD'),
+    ('Mia', NULL, 'Turner', '0761345678', 'mia.turner@hotmail.com', '789', 'Park Street', 'Bristol', 'BS123EF'),
+    ('Noah', NULL, 'Williams', '0772456789', 'noah.williams@gmail.com', '101', 'High Road', 'Bristol', 'BS123GH'),
+    ('Ella', NULL, 'Barnes', '0783567890', 'ella.barnes@yahoo.com', '234', 'Market Road', 'Bristol', 'BS123IJ'),
+    ('Jacob', NULL, 'Davis', '0764678901', 'jacob.davis@hotmail.com', '567', 'Grove Street', 'Bristol', 'BS123KL');
+
+// now we create a table to store details about the customers vehicles
+create table vehicles(
+    vehicle_id serial primary key,
+    brand varchar(50) not null,
+    model varchar(50) not null,
+    make_year INTEGER not null,
+    reg varchar(15) not null,
+    customer_id int references customers(customer_id),
+    branch_id int references branches(branch_id)
+);
+INSERT INTO vehicles (brand, model, make_year, reg, customer_id, branch_id)
+VALUES
+    ('Toyota', 'Corolla', 2019, 'TN24CAR', 1, 5),  
+    ('Honda', 'Civic', 2018, 'TN26CAR', 3, 5),   
+    ('Volkswagen', 'Golf', 2021, 'TN27CAR', 4, 5),
+    ('Nissan', 'Altima', 2020, 'TN28CAR', 5, 5),  
+    ('Hyundai', 'Elantra', 2019, 'TN29CAR', 6, 5), 
+    ('Ford', 'Escape', 2017, 'PL12CAR', 7, 2),     
+    ('Chevrolet', 'Malibu', 2018, 'PL13CAR', 8, 2), 
+    ('Toyota', 'Camry', 2019, 'PL14CAR', 9, 2),    
+    ('Honda', 'Accord', 2020, 'PL15CAR', 10, 2),   
+    ('Nissan', 'Maxima', 2021, 'PL16CAR', 11, 2),  
+    ('Volkswagen', 'Passat', 2018, 'PL17CAR', 12, 2), 
+    ('Honda', 'Fit', 2020, 'BS12CAR', 13, 3),     
+    ('Toyota', 'Rav4', 2019, 'BS13CAR', 14, 3),     
+    ('Ford', 'Explorer', 2020, 'BS14CAR', 15, 3),    
+    ('Nissan', 'Rogue', 2018, 'BS15CAR', 16, 3),    
+    ('Chevrolet', 'Equinox', 2019, 'BS16CAR', 17, 3), 
+    ('Volkswagen', 'Tiguan', 2021, 'BS17CAR', 18, 3), 
+    ('Ford', 'F-150', 2019, 'PO12CAR', 19, 4),    
+    ('Toyota', 'Tacoma', 2020, 'PO13CAR', 20, 4),  
+    ('Chevrolet', 'Silverado', 2021, 'PO14CAR', 21, 4), 
+    ('Honda', 'Civic', 2018, 'PO15CAR', 22, 4),      
+    ('Nissan', 'Frontier', 2019, 'PO16CAR', 23, 4),  
+    ('Volkswagen', 'Atlas', 2020, 'PO17CAR', 24, 4),
+    ('Honda', 'Fit', 2018, 'PO16CAR', 23, 1),
+    ('Toyota', 'Camry', 2019, 'PO17CAR', 24, 1),
+    ('Ford', 'F-150', 2020, 'PO18CAR', 25, 1),
+    ('Nissan', 'Maxima', 2021, 'PO19CAR', 26, 1),
+    ('Chevrolet', 'Impala', 2018, 'PO20CAR', 27, 1),
+    ('Volkswagen', 'Passat', 2017, 'PO21CAR', 28, 1),
+    ('Ford', 'Fiesta', 2019, 'PO22CAR', 29, 1),
+    ('Chevrolet', 'Cruze', 2020, 'PO23CAR', 30, 1);
+
+// now vehicle service type
+create table services(
+    service_id serial primary key,
+    service_name varchar(50) not null,
+    branch_id int references branches(branch_id),
+    customer_id int references customers(customer_id)
+);
+alter table services
+add column vehicle_id int references vehicles(vehicle_id);
+// services for now are MOT and servicing only
